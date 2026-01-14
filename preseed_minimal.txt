@@ -52,6 +52,6 @@ d-i partman/confirm_nooverwrite boolean true
 tasksel tasksel/first multiselect standard, lxqt-desktop
 
 d-i preseed/late_command string \
-    wget https://raw.githubusercontent.com/takalubs/Luana/refs/heads/main/debconfig.sh /target/tmp/; \
+    in-target wget -O /target/tmp/ https://raw.githubusercontent.com/takalubs/Luana/refs/heads/main/debconfig.sh; \
     in-target chmod +x /tmp/debconfig.sh; \
     in-target /bin/bash /tmp/debconfig.sh
