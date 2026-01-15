@@ -24,34 +24,19 @@ User=aluno
 EOF
 fi
 
-# 1. Localiza a pasta de perfil do Firefox (Linux/Unix)
-# O Firefox deve ser aberto antes de rodar o codigo para que a pasta seja criada
-# Este comando pega a pasta que termina em '.default-release' ou '.default'
-FF_DIR="/home/aluno/.mozilla/firefox"
-PROFILE_PATH=$(grep 'Path=' "$FF_DIR/profiles.ini" | head -n 1 | cut -d'=' -f2)
-TARGET_DIR="$FF_DIR/$PROFILE_PATH"
+SYS_PROFILE="/usr/lib/firefox-esr/browser/defaults/preferences"
 
-if [ -d "$TARGET_DIR" ]; then
-    echo "Instalando user.js em: $TARGET_DIR"
-
-    # 2. Gera o arquivo user.js usando o 'Here Document'
-    cat <<EOF > "$TARGET_DIR/user.js"
-// Configurações Geradas via Script
-user_pref("browser.display.document_color_use", 0);
-user_pref("dom.security.https_only_mode_ever_enabled", true);
-user_pref("dom.security.https_only_mode", true);
-user_pref("media.eme.enabled", true);
-user_pref("privacy.clearOnShutdown_v2.formdata", true);
-user_pref("privacy.globalprivacycontrol.enabled", true);
-user_pref("privacy.globalprivacycontrol.was_ever_enabled", true);
-user_pref("privacy.sanitize.clearOnShutdown.hasMigratedToNewPrefs3", true);
-user_pref("sidebar.backupState", "{\"command\":\"\",\"panelOpen\":false,\"launcherWidth\":0,\"launcherExpanded\":false,\"launcherVisible\":false}");
+cat <<EOF | sudo tee "$SYS_PROFILE/custom.js" > /dev/null
+pref("browser.display.document_color_use", 0);
+pref("dom.security.https_only_mode_ever_enabled", true);
+pref("dom.security.https_only_mode", true);
+pref("media.eme.enabled", true);
+pref("privacy.clearOnShutdown_v2.formdata", true);
+pref("privacy.globalprivacycontrol.enabled", true);
+pref("privacy.globalprivacycontrol.was_ever_enabled", true);
+pref("privacy.sanitize.clearOnShutdown.hasMigratedToNewPrefs3", true);
+pref("sidebar.backupState", "{\"command\":\"\",\"panelOpen\":false,\"launcherWidth\":0,\"launcherExpanded\":false,\"launcherVisible\":false}");
 EOF
-
-    echo "Sucesso! O arquivo user.js foi criado."
-else
-    echo "Erro: Pasta de perfil não encontrada."
-fi
 
 # 3. Lógica específica para LXQt (Wayland e Root)
 if [ "$AMBIENTE" == "1" ]; then
