@@ -4,25 +4,19 @@ set -e
 # --- 2. PREFERÊNCIAS (USER.JS no Molde do Sistema) ---
 # Isso garante que novos usuários já venham com seu user.js
 # O diretório 'defaults/profile' é o padrão para o molde no Debian/Ubuntu
-SYS_PROFILE="/usr/lib/firefox/browser/defaults/profile"
-sudo mkdir -p "$SYS_PROFILE"
+SYS_PROFILE="/usr/lib/firefox-esr/browser/defaults/preferences"
 
-cat <<EOF | sudo tee "$SYS_PROFILE/user.js" > /dev/null
-user_pref("browser.display.document_color_use", 0);
-user_pref("dom.security.https_only_mode_ever_enabled", true);
-user_pref("dom.security.https_only_mode", true);
-user_pref("media.eme.enabled", true);
-user_pref("privacy.clearOnShutdown_v2.formdata", true);
-user_pref("privacy.globalprivacycontrol.enabled", true);
-user_pref("privacy.globalprivacycontrol.was_ever_enabled", true);
-user_pref("privacy.sanitize.clearOnShutdown.hasMigratedToNewPrefs3", true);
-user_pref("sidebar.backupState", "{\"command\":\"\",\"panelOpen\":false,\"launcherWidth\":0,\"launcherExpanded\":false,\"launcherVisible\":false}");
+cat <<EOF | sudo tee "$SYS_PROFILE/custom.js" > /dev/null
+pref("browser.display.document_color_use", 0);
+pref("dom.security.https_only_mode_ever_enabled", true);
+pref("dom.security.https_only_mode", true);
+pref("media.eme.enabled", true);
+pref("privacy.clearOnShutdown_v2.formdata", true);
+pref("privacy.globalprivacycontrol.enabled", true);
+pref("privacy.globalprivacycontrol.was_ever_enabled", true);
+pref("privacy.sanitize.clearOnShutdown.hasMigratedToNewPrefs3", true);
+pref("sidebar.backupState", "{\"command\":\"\",\"panelOpen\":false,\"launcherWidth\":0,\"launcherExpanded\":false,\"launcherVisible\":false}");
 EOF
-
-    echo "Sucesso! O arquivo user.js foi criado."
-else
-    echo "Erro: Pasta de perfil não encontrada."
-fi
 
 # Instala o gerenciador
 sudo apt install snapd -y
