@@ -1,19 +1,13 @@
 #!/bin/bash
 set -e
 
-# 1. Localiza a pasta de perfil do Firefox (Linux/Unix)
-# O Firefox guarda os perfis em ~/.mozilla/firefox/
-# Este comando pega a pasta que termina em '.default-release' ou '.default'
-FF_DIR="/home/professor/.mozilla/firefox"
-PROFILE_PATH=$(grep 'Path=' "$FF_DIR/profiles.ini" | head -n 1 | cut -d'=' -f2)
-TARGET_DIR="$FF_DIR/$PROFILE_PATH"
+# --- 2. PREFERÊNCIAS (USER.JS no Molde do Sistema) ---
+# Isso garante que novos usuários já venham com seu user.js
+# O diretório 'defaults/profile' é o padrão para o molde no Debian/Ubuntu
+SYS_PROFILE="/usr/lib/firefox/browser/defaults/profile"
+sudo mkdir -p "$SYS_PROFILE"
 
-if [ -d "$TARGET_DIR" ]; then
-    echo "Instalando user.js em: $TARGET_DIR"
-
-    # 2. Gera o arquivo user.js usando o 'Here Document'
-    cat <<EOF > "$TARGET_DIR/user.js"
-// Configurações Geradas via Script
+cat <<EOF | sudo tee "$SYS_PROFILE/user.js" > /dev/null
 user_pref("browser.display.document_color_use", 0);
 user_pref("dom.security.https_only_mode_ever_enabled", true);
 user_pref("dom.security.https_only_mode", true);
