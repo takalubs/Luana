@@ -57,8 +57,8 @@ fi
 apt install -y zram-tools btrfs-assistant ufw veyon-service
 
 # 5. Configuração do Firewall (UFW)
-#ufw allow 11100/tcp
-#ufw allow 11400/tcp
+ufw allow 11100/tcp
+ufw allow 11400/tcp
 ufw enable
 
 # 7. Limpeza de pacotes padrão (Ajuste esta lista conforme sua preferência)
