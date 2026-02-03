@@ -61,6 +61,11 @@ ufw allow 11100/tcp
 ufw allow 11400/tcp
 ufw enable
 
+#configurar testar
+veyon-cli set config Authentication/Method 1
+veyon-cli authkeys import sala/public /home/aluno/Downloads/sala_public_key.pem
+veyon-cli service restart
+
 # 7. Limpeza de pacotes padrão (Ajuste esta lista conforme sua preferência)
 # Removendo apps comuns do KDE, Cinnamon e LXQt (ex: jogos, chats, reprodutores)
 echo "Removendo pacotes padrão indesejados..."
